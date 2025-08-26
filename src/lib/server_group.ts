@@ -47,7 +47,10 @@ export async function createTempServerGroup(teamspeak: TeamSpeak, name: string) 
     });
 
     // create a file, if not there in data directory with created server group ids locally
-    if (!fs.existsSync(FILE_PATH) || fs.readFileSync(FILE_PATH, 'utf-8').length === 0) {
+    if (!fs.existsSync(FILE_PATH)) {
+        if (!fs.existsSync(DATA_DIR)) {
+            fs.mkdirSync(DATA_DIR, {recursive: true});
+        }
         fs.writeFileSync(FILE_PATH, JSON.stringify([sg.sgid]));
     } else {
         const existingGroups = JSON.parse(fs.readFileSync(FILE_PATH, 'utf-8'));
@@ -76,6 +79,10 @@ export async function createTempServerGroup(teamspeak: TeamSpeak, name: string) 
 // }
 
 export const removeAllTempServerGroups = async (teamspeak: TeamSpeak, client: TeamSpeakClient, prefix = '') => {
+    if (!fs.existsSync(FILE_PATH)) {
+        return;
+    }
+
     const allTempGroups: string[] = fs.readFileSync(FILE_PATH, 'utf-8').length === 0 ? [] : JSON.parse(fs.readFileSync(FILE_PATH, 'utf-8'));
     const clientServerGroups = client.servergroups;
 

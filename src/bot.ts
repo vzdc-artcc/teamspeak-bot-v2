@@ -39,7 +39,7 @@ teamspeak.on("ready", async () => {
                 await updateSb2Position(teamspeak, client, userData.cid);
             }
         } catch (err) {
-            console.error("Error updating positions for clients.  Will retry in 60 seconds.");
+            console.error("Error updating positions for clients.  Will retry in 60 seconds.", err);
         }
     }, 60 * 1000) // Every 60 seconds
 
