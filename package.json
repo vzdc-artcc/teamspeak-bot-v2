@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "ts-node src/bot.ts",
+    "build": "tsc",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "ts3-nodejs-library": "^3.5.1"
+  }
+}
