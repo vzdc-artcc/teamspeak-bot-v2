@@ -12,6 +12,7 @@ export type VnasResponse = {
         positions: {
             facilityId: string;
             positionName: string;
+            positionType: 'Atct' | 'Tracon' | 'Artcc';
             defaultCallsign: string;
             isPrimary: boolean;
             isActive: boolean;
@@ -75,9 +76,7 @@ async function updateOnlinePosition(teamspeak: TeamSpeak, client: TeamSpeakClien
     }
 
     let radarId = ' - ';
-    if (primaryPosition.eramData) {
-        radarId = ` ${primaryPosition.eramData.sectorId} - `;
-    } else if (primaryPosition.starsData) {
+    if (primaryPosition.positionType !== 'Atct' && primaryPosition.starsData) {
         radarId = ` ${primaryPosition.starsData.subset}${primaryPosition.starsData.sectorId} - `;
     }
 
