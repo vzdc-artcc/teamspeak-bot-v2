@@ -67,7 +67,7 @@ async function updateOnlinePosition(teamspeak: TeamSpeak, client: TeamSpeakClien
         return;
     }
 
-    const positionCallsign = `${primaryPosition.facilityId} ${primaryPosition.positionName}` || controller.vatsimData.callsign;
+    const positionCallsign = `${primaryPosition.facilityId} ${primaryPosition.positionName} ` || controller.vatsimData.callsign;
     const sg = await createTempServerGroup(teamspeak, `${prefix}${positionCallsign}`);
 
     if (sg && !client.servergroups.includes(sg.sgid)) {
