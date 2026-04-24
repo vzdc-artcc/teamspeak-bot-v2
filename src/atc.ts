@@ -15,6 +15,13 @@ export type VnasResponse = {
             defaultCallsign: string;
             isPrimary: boolean;
             isActive: boolean;
+            starsData: {
+                subset: number;
+                sectorId: string;
+            };
+            eramData: {
+                sectorId: string;
+            };
         }[];
         vatsimData: {
             cid: string;
@@ -67,7 +74,14 @@ async function updateOnlinePosition(teamspeak: TeamSpeak, client: TeamSpeakClien
         return;
     }
 
-    const positionCallsign = `${primaryPosition.facilityId} ${primaryPosition.positionName} ` || controller.vatsimData.callsign;
+    let radarId = ' - ';
+    if (primaryPosition.eramData) {
+        radarId = ` ${primaryPosition.eramData.sectorId} - `;
+    } else if (primaryPosition.starsData) {
+        radarId = ` ${primaryPosition.starsData.subset}${primaryPosition.starsData.sectorId} - `;
+    }
+
+    const positionCallsign = `${primaryPosition.facilityId}${radarId}${primaryPosition.positionName}${prefix.trim() === '' ? ' ' : ''}` || controller.vatsimData.callsign;
     const sg = await createTempServerGroup(teamspeak, `${prefix}${positionCallsign}`);
 
     if (sg && !client.servergroups.includes(sg.sgid)) {
